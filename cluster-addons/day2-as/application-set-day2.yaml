@@ -1,0 +1,32 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: day2-as-sno-2
+  namespace: openshift-gitops
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/currelas78/workshop-gitops-content-deploy.git
+      revision: sno-2-setup
+      files:
+      - path: "config-definition/**/config.json" 
+  template:
+    metadata:
+      name: 'sno-2-{{path.basename}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/currelas78/helm-infra-gitops-workshop.git
+        targetRevision: sno-2
+        path: .
+        helm:
+          valueFiles:
+            - '{{valuesFile}}'        
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: openshift-gitops
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true 
