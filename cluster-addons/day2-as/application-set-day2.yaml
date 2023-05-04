@@ -8,17 +8,17 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/currelas78/workshop-gitops-content-deploy.git
-      revision: sno-2-setup
+      revision: sno-5-setup
       files:
       - path: "config-definition/**/config.json" 
   template:
     metadata:
-      name: 'sno-2-{{path.basename}}'
+      name: 'sno-5-{{path.basename}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/currelas78/helm-infra-gitops-workshop.git
-        targetRevision: sno-2
+        targetRevision: sno-5
         path: .
         helm:
           valueFiles:
